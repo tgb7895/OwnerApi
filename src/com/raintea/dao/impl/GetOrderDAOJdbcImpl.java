@@ -1,4 +1,6 @@
 package com.raintea.dao.impl;
+import java.util.List;
+
 import com.raintea.bean.getorder.Data;
 import com.raintea.bean.getorder.GetOrder;
 import com.raintea.bean.getorder.Worker;
@@ -15,21 +17,40 @@ public class GetOrderDAOJdbcImpl extends DAO<Data> implements GetOrderDAO{
 				+ "address address ,cause 'cause',"
 				+ "appointment_time appointment_time,"
 				+ "order_number repair_number,"
-				+ "upic image," //”–Œ Ã‚
 				+ "progress progress "
 				+ "FROM"
 				+ " tenement_repair,"
 				+ "tenement_community_workperson "
 				+ "WHERE tenement_repair.worker_id=tenement_community_workperson.id and owner_id=?";
+		String imgsql="SELECT "
+				+ "img_url "
+				+ "FROM "
+				+ "tenement_repears_comment,"
+				+ "tenement_image "
+				+ "WHERE "
+				+ "tenement_repears_comment.`id`=tenement_image.`flag_id`  "
+				+ "AND tenement_repears_comment.`Owner_id`=? "
+				+ "AND tenement_image.`flag`=1;";
 		
-		Data data=super.get(sql,owner_id);
-		GetOrderDAOJdbcImpl_z gddjiz=new GetOrderDAOJdbcImpl_z();
-		data.setWorker(gddjiz.getWorkerdata(owner_id));
+		Data data = super.get(sql, owner_id);
+		GetOrderDAOJdbcImpl_z gddjiz = new GetOrderDAOJdbcImpl_z();
+		try {	
+			data.setWorker(gddjiz.getWorkerdata(owner_id));
+			data.setImage(getStrList(imgsql, "img_url", owner_id));
+			toolsTest.setData(data);
+			toolsTest.setErrCode("0001");
+			toolsTest.setErrMsg("");
+			toolsTest.setRetCode("");
+		} catch (Exception e) {
+			toolsTest.setErrCode("0000");
+			toolsTest.setErrMsg("id¥ÌŒÛ");
+			toolsTest.setRetCode("0000");
+			toolsTest.setData(new Data());
+			
+			
+			
+		}
 		
-		toolsTest.setData(data);
-		toolsTest.setErrCode("0001");
-		toolsTest.setErrMsg("");
-		toolsTest.setRetCode("");
 		
 //		System.out.println(toolsTest);
 //		GetOrderDAOJdbcImpl_z gddjiz=new GetOrderDAOJdbcImpl_z();

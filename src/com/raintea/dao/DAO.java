@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ColumnListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import com.raintea.db.JdbcUtils;
@@ -21,7 +22,7 @@ import com.raintea.db.JdbcUtils;
  * @param <T>:当前DAO处理的实体类的类型是什么
  */
 public class DAO<T> {
-	private QueryRunner queryRunner=new QueryRunner();
+	public QueryRunner queryRunner=new QueryRunner();
 	
 	private Class<T> clazz;
 	
@@ -118,5 +119,19 @@ public class DAO<T> {
 		return n;
 	}
 	
+	public List<String> getStrList(String sql,String column,Object ...args){
+		Connection connection=null;
+		try {
+			connection=JdbcUtils.getConnection();
+			return (List<String>) queryRunner.query(connection, sql, new ColumnListHandler(column), args);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("getError");
+		}finally {
+			JdbcUtils.releaseConnection(connection);
+		}
+		return null;
+	}
+
 	
 }

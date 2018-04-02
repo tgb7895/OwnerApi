@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Data {
 
-    private List<List> list;
-    public void setList(List<List> list) {
+    private List<ListDep> list;
+    public void setList(List<ListDep> list) {
          this.list = list;
      }
-     public List<List> getList() {
+     public List<ListDep> getList() {
          return list;
      }
 

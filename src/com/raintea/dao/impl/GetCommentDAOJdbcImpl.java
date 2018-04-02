@@ -2,6 +2,9 @@ package com.raintea.dao.impl;
 
 import com.raintea.dao.DAO;
 import com.raintea.dao.GetCommentDAO;
+
+import java.util.List;
+
 import com.raintea.bean.getcomment.*;
 
 
@@ -26,8 +29,22 @@ public class GetCommentDAOJdbcImpl extends DAO<Data> implements GetCommentDAO{
 				+ " AND tenement_owner.`id`=tenement_repair.owner_id "
 				+ "AND tenement_community.`id`=tenement_owner.`community_id`"
 				+ "and tenement_repears_comment.`repear_id`=? and tenement_repair.owner_id=?;";
+		String imgSql="SELECT "
+				+ "img_url "
+				+ "FROM "
+				+ "tenement_repears_comment,"
+				+ "tenement_image "
+				+ "WHERE "
+				+ "tenement_repears_comment.`id`=tenement_image.`flag_id` "
+				+ "AND "
+				+ "tenement_repears_comment.`Owner_id`=?;";
+		List<String> list=getStrList(imgSql, "img_url", owner_id);
+		
+		
 		GetComment getcomment=new GetComment();
-		getcomment.setData(get(sql,owner_id,repair_id));
+		Data data=get(sql,owner_id,repair_id);
+		data.setImage(list);
+		getcomment.setData(data);
 		if(getcomment.getData()==null) {
 			getcomment.setErrCode("0000");
 			getcomment.setErrMsg("id´íÎó");

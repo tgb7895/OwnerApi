@@ -11,9 +11,6 @@ import com.alibaba.fastjson.JSON;
 import com.raintea.bean.success.Success;
 import com.raintea.dao.impl.ChangeOwnerNameDAOJdbcImpl;
 
-/**
- * Servlet implementation class ChangeOwnerNameServlet
- */
 @WebServlet("/User/changeOwnerName")
 public class ChangeOwnerNameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

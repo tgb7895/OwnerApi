@@ -2,7 +2,7 @@
 package com.raintea.bean.getdepartment;
 
 
-public class List {
+public class ListDep {
 
     private int department_id;
     private String department_name;
